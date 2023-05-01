@@ -30,8 +30,9 @@ public class Gui extends JFrame {
     public Gui() {
         initGUI();
         this.setTitle("Geek out masters");
-        this.setSize(400, 400);
+        this.setSize(700, 700);
         this.setVisible(true);
+        this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
