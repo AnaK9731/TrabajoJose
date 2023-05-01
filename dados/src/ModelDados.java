@@ -1,14 +1,21 @@
 public class ModelDados {
 
-    //atributos
-private Dados dado1, dado2, dado3, dado4, dado5, dado6, dado7, dado8, dado9, dado10;
+    /**
+     * Atributos de mi clase
+     */
+    private Dados dado1, dado2, dado3, dado4, dado5, dado6, dado7, dado8, dado9, dado10;
 private int meeple, hero, drake, cohete, points, extraLife;
 private int [] caras;
 private int dadosActivos;
 private int dadosInactivos;
+private String[] valor = {"", "", "", "", "", "", "", null, null, null};
 private int cantidadActivos, cantidadInactivos;
 
-public ModelDados(){
+
+    /**
+     * Constructor
+     */
+    public ModelDados(){
     dado1 = new Dados();
     dado2 = new Dados();
     dado3 = new Dados();
@@ -22,7 +29,10 @@ public ModelDados(){
     caras = new int[10];
 }
 
-public void obtenerValorCaras(){
+    /**
+     * Obtenemos el valor de caras
+     */
+    public void obtenerValorCaras(){
     caras[0]= dado1.getCara();
     caras[1]= dado2.getCara();
     caras[2]= dado3.getCara();
@@ -34,29 +44,37 @@ public void obtenerValorCaras(){
     caras[8]= dado9.getCara();
     caras[9]= dado10.getCara();
 }
-//Aca validamos el poder de cada uno dependiendo de si callo en cierta posicion.  Luego creamos el metodo para cada una de las caras. y lo mandamos a llamar dentro de su respectivo condicional.
-public void asignarPoder(){
+
+    /**
+     * Este metodo me asigna un poder especifico dentro de la variable valor
+     * recorre la variable caras en la cual se asigna un numero y si ese numero corresponde
+     * con el valor que se pide, sera entonces un meeple o un cohete etc.
+     */
+    public void asignarPoder(){
     obtenerValorCaras();
-    for (int i = 0; i<=6; i++){
+    for (int i = 0; i<7; i++){
         if (caras[i] == 1){
-            System.out.println("dado:"+ i+ "= Meeple " );
+            valor[i] = "meeple";
         }else if (caras[i] == 6){
-            System.out.println("dado:"+ i+ "= Cohete " );
+            valor[i] = "cohete";
         }else if (caras[i] == 2){
-            System.out.println("dado:"+ i+ "= Points " );
+            valor[i] = "points";
         }else if (caras[i] == 5){
-            System.out.println("dado:"+ i+ "= Extra Life " );
+            valor[i] = "life";
         }else if (caras[i] == 3){
-            System.out.println("dado: "+i+ "= Hero");
+            valor[i] = "hero";
         }else if (caras[i] == 4){
-            System.out.println("dado:"+ i+ "= Drake " );
+            valor[i] = "drake";
         }
     }
-}
+        for (String s : valor) {
+            System.out.println(s);
+        }
+    }
 
     /**
      * Metodos que retornan la cantidad de objetos que hay en los dados inactivos y activos.
-     * @return
+     * @return cantidad de dados activos.
      */
 
     public int getDadosActivos() {

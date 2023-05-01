@@ -13,9 +13,12 @@ public class Gui extends JFrame {
     private JPanel containerImage, inactiveDiceLayout, usedDiceLayout, scoreLayout;
     private JPanel panelPrincipal;
 
+    //Label para mostrar una imagen con la ayuda en el JOPTION PANE
+    private JLabel Guide;
+
     //imagenes para los dados
     private JLabel dado1, dado2, dado3, dado4, dado5, dado6, dado7, dado8, dado9, dado10;
-    private JButton startRound;
+    private JButton startRound, help;
     private ModelDados modelDados;
     private Escucha escucha;
     private ImageIcon imageDados;
@@ -40,6 +43,8 @@ public class Gui extends JFrame {
         inactiveDice = new JPanel(new BorderLayout());
         activeDice = new JPanel(new BorderLayout());
         usedDice = new JPanel(new BorderLayout());
+
+        //Paneles que van dentro de los paneles, para poder meter dentro las imagenes o txt area.
         containerImage = new JPanel();
         inactiveDiceLayout = new JPanel();
         usedDiceLayout = new JPanel();
@@ -59,7 +64,8 @@ public class Gui extends JFrame {
         escucha= new Escucha();
         modelDados= new ModelDados();
 
-
+    //Titulo para la ventana mostrando el nombre de geekoutMasters
+        //panelPrincipal.add(title=new Title("Geek Out Masters", Color.GRAY));
 
         //Ponemos bordes en cada panel xd
         Border border = BorderFactory.createLineBorder(Color.black);
@@ -75,7 +81,7 @@ public class Gui extends JFrame {
         activeDice.add(title, BorderLayout.NORTH);
         activeDice.add(containerImage, BorderLayout.CENTER);
 
-        startRound = new JButton("Empezar Ronda");
+        startRound = new JButton("Gira los dados");
         startRound.addActionListener(escucha);
         activeDice.add(startRound, BorderLayout.SOUTH);
 
@@ -94,6 +100,10 @@ public class Gui extends JFrame {
         panelPrincipal.add(score);
         score.add(title = new Title("Puntaje", Color.black));
         score.add(title, BorderLayout.NORTH);
+
+        help = new JButton("Guia");
+        help.addActionListener(escucha);
+        score.add(help, BorderLayout.PAGE_END);
 
         //Panel dados inactivos
         panelPrincipal.add(inactiveDice);
@@ -136,41 +146,53 @@ public class Gui extends JFrame {
 
     private class Escucha implements ActionListener, MouseListener {
 
+
+        //Para el boton de empezar ronda.
         @Override
         public void actionPerformed(ActionEvent e) {
-            modelDados.obtenerValorCaras();
-            modelDados.asignarPoder();
-            int[] caras = modelDados.getCaras();
 
-            imageDados = new ImageIcon(getClass().getResource("/recursos/"+caras[0]+".png"));
-            dado1.setIcon(imageDados);
-            imageDados = new ImageIcon(getClass().getResource("/recursos/"+caras[1]+".png"));
-            dado2.setIcon(imageDados);
-            imageDados = new ImageIcon(getClass().getResource("/recursos/"+caras[2]+".png"));
-            dado3.setIcon(imageDados);
-            imageDados = new ImageIcon(getClass().getResource("/recursos/"+caras[3]+".png"));
-            dado4.setIcon(imageDados);
-            imageDados = new ImageIcon(getClass().getResource("/recursos/"+caras[4]+".png"));
-            dado5.setIcon(imageDados);
-            imageDados = new ImageIcon(getClass().getResource("/recursos/"+caras[5]+".png"));
-            dado6.setIcon(imageDados);
-            imageDados = new ImageIcon(getClass().getResource("/recursos/"+caras[6]+".png"));
-            dado7.setIcon(imageDados);
-            imageDados = new ImageIcon(getClass().getResource("/recursos/"+caras[7]+".png"));
-            dado8.setIcon(imageDados);
-            imageDados = new ImageIcon(getClass().getResource("/recursos/"+caras[8]+".png"));
-            dado9.setIcon(imageDados);
-            imageDados = new ImageIcon(getClass().getResource("/recursos/"+caras[9]+".png"));
-            dado10.setIcon(imageDados);
-            containerImage.add(dado1);
-            containerImage.add(dado2);
-            containerImage.add(dado3);
-            containerImage.add(dado4);
-            containerImage.add(dado5);
-            containerImage.add(dado6);
-            containerImage.add(dado7);
-            empezarRonda();
 
+            //Añadimos la opcion de visualizar una ayuda en la GUI. Lo que hacen los dados y las puntuaciones.
+            if (e.getSource()==help){
+                imageDados=new ImageIcon(getClass().getResource("/recursos/ayuda.png"));
+                Guide = new JLabel(imageDados);
+                JOptionPane.showMessageDialog(null, Guide, "Guia de Juego", JOptionPane.PLAIN_MESSAGE);
+            }
+
+            //Iniciar los valores de los dados al empezar ronda.
+            if (e.getSource()== startRound) {
+                modelDados.obtenerValorCaras();
+                modelDados.asignarPoder();
+                int[] caras = modelDados.getCaras();
+                imageDados = new ImageIcon(getClass().getResource("/recursos/" + caras[0] + ".png"));
+                dado1.setIcon(imageDados);
+                imageDados = new ImageIcon(getClass().getResource("/recursos/" + caras[1] + ".png"));
+                dado2.setIcon(imageDados);
+                imageDados = new ImageIcon(getClass().getResource("/recursos/" + caras[2] + ".png"));
+                dado3.setIcon(imageDados);
+                imageDados = new ImageIcon(getClass().getResource("/recursos/" + caras[3] + ".png"));
+                dado4.setIcon(imageDados);
+                imageDados = new ImageIcon(getClass().getResource("/recursos/" + caras[4] + ".png"));
+                dado5.setIcon(imageDados);
+                imageDados = new ImageIcon(getClass().getResource("/recursos/" + caras[5] + ".png"));
+                dado6.setIcon(imageDados);
+                imageDados = new ImageIcon(getClass().getResource("/recursos/" + caras[6] + ".png"));
+                dado7.setIcon(imageDados);
+                imageDados = new ImageIcon(getClass().getResource("/recursos/" + caras[7] + ".png"));
+                dado8.setIcon(imageDados);
+                imageDados = new ImageIcon(getClass().getResource("/recursos/" + caras[8] + ".png"));
+                dado9.setIcon(imageDados);
+                imageDados = new ImageIcon(getClass().getResource("/recursos/" + caras[9] + ".png"));
+                dado10.setIcon(imageDados);
+                containerImage.add(dado1);
+                containerImage.add(dado2);
+                containerImage.add(dado3);
+                containerImage.add(dado4);
+                containerImage.add(dado5);
+                containerImage.add(dado6);
+                containerImage.add(dado7);
+                empezarRonda();
+            }
         }
 
 
@@ -236,3 +258,4 @@ public class Gui extends JFrame {
         }
     }
 }
+
