@@ -15,6 +15,7 @@ public class Gui extends JFrame {
 
     //Label para mostrar una imagen con la ayuda en el JOPTION PANE
     private JLabel Guide;
+    private int contadorActivos = 0;
 
     //imagenes para los dados
     private JLabel dado1, dado2, dado3, dado4, dado5, dado6, dado7, dado8, dado9, dado10;
@@ -30,7 +31,7 @@ public class Gui extends JFrame {
     public Gui() {
         initGUI();
         this.setTitle("Geek out masters");
-        this.setSize(700, 700);
+        this.setSize(705, 500);
         this.setVisible(true);
         this.setResizable(false);
         this.setLocationRelativeTo(null);
@@ -111,9 +112,7 @@ public class Gui extends JFrame {
         inactiveDice.add(title = new Title("Dados Inactivos", Color.GRAY));
         inactiveDice.add(title,BorderLayout.NORTH);
         inactiveDice.add(inactiveDiceLayout, BorderLayout.CENTER);
-        inactiveDiceLayout.add(dado8);
-        inactiveDiceLayout.add(dado9);
-        inactiveDiceLayout.add(dado10);
+
 
         //Panel dados usados.
         panelPrincipal.add(usedDice);
@@ -136,7 +135,9 @@ public class Gui extends JFrame {
         usedDiceLayout.repaint();
     }
 
+
     public static void main(String[] args) {
+
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
@@ -147,11 +148,9 @@ public class Gui extends JFrame {
 
     private class Escucha implements ActionListener, MouseListener {
 
-
         //Para el boton de empezar ronda.
         @Override
         public void actionPerformed(ActionEvent e) {
-
 
             //Añadimos la opcion de visualizar una ayuda en la GUI. Lo que hacen los dados y las puntuaciones.
             if (e.getSource()==help){
@@ -161,7 +160,7 @@ public class Gui extends JFrame {
             }
 
             //Iniciar los valores de los dados al empezar ronda.
-            if (e.getSource()== startRound) {
+            if (e.getSource()== startRound && contadorActivos==0) {
                 modelDados.obtenerValorCaras();
                 modelDados.asignarPoder();
                 int[] caras = modelDados.getCaras();
@@ -192,50 +191,84 @@ public class Gui extends JFrame {
                 containerImage.add(dado5);
                 containerImage.add(dado6);
                 containerImage.add(dado7);
+                inactiveDiceLayout.add(dado8);
+                inactiveDiceLayout.add(dado9);
+                inactiveDiceLayout.add(dado10);
                 empezarRonda();
+                contadorActivos =0;
             }
         }
-
-
         @Override
         public void mouseClicked(MouseEvent e) {
             if (e.getComponent() instanceof JLabel) {
                 if (e.getSource() == dado1) {
+                    contadorActivos++;
                     activeDice.remove(dado1);
                     usedDiceLayout.add(dado1);
                     activeDice.revalidate();
                     activeDice.repaint();
-                }else if (e.getSource() == dado2) {
+                } if (e.getSource() == dado2) {
+                    contadorActivos++;
                     activeDice.remove(dado2);
                     usedDiceLayout.add(dado2);
                     activeDice.revalidate();
                     activeDice.repaint();
-                }else if (e.getSource() == dado3) {
+                } if (e.getSource() == dado3) {
+                    contadorActivos++;
                     activeDice.remove(dado3);
                     usedDiceLayout.add(dado3);
                     activeDice.revalidate();
                     activeDice.repaint();
-                }else if (e.getSource() == dado4) {
+                }if (e.getSource() == dado4) {
+                    contadorActivos++;
                     activeDice.remove(dado4);
                     usedDiceLayout.add(dado4);
                     activeDice.revalidate();
                     activeDice.repaint();
-                }else if (e.getSource() == dado5) {
+                } if (e.getSource() == dado5) {
+                    contadorActivos++;
                     activeDice.remove(dado5);
                     usedDiceLayout.add(dado5);
                     activeDice.revalidate();
                     activeDice.repaint();
-                }else if (e.getSource() == dado6) {
+                } if (e.getSource() == dado6) {
+                    contadorActivos++;
                     activeDice.remove(dado6);
                     usedDiceLayout.add(dado6);
                     activeDice.revalidate();
                     activeDice.repaint();
-                }else if (e.getSource() == dado7) {
+                } if (e.getSource() == dado7) {
+                    contadorActivos++;
                     activeDice.remove(dado7);
                     usedDiceLayout.add(dado7);
                     activeDice.revalidate();
                     activeDice.repaint();
+                } if (e.getSource() == dado8 && containerImage.isAncestorOf(dado8)) {
+                    contadorActivos++;
+                    activeDice.remove(dado8);
+                    usedDiceLayout.add(dado8);
+                    activeDice.revalidate();
+                    activeDice.repaint();
+                } if (e.getSource() == dado9 && containerImage.isAncestorOf(dado9)) {
+                    contadorActivos++;
+                    activeDice.remove(dado9);
+                    usedDiceLayout.add(dado9);
+                    activeDice.revalidate();
+                    activeDice.repaint();
+                } if (e.getSource() == dado10 && containerImage.isAncestorOf(dado10)) {
+                    contadorActivos++;
+                    activeDice.remove(dado10);
+                    usedDiceLayout.add(dado10);
+                    activeDice.revalidate();
+                    activeDice.repaint();
                 }
+                //Para probar que se esta contando bien los dados activos.
+                //Crear un metodo que verifique si es un dragon o un PUNTO, y sume a los dados activos.
+                //Crear un metodo que cuando se seleccione un corazon no se sume a los dados activos.
+                //Quitarle el evento del click al 42 y al drake.
+                }if (contadorActivos == 7) {
+                System.out.println("NO HAY MAS ACTIVOS LANZA LOS DADOS DE NUEVO.");
+                contadorActivos=0;
             }
         }
         @Override
