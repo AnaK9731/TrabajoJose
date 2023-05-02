@@ -16,6 +16,8 @@ Si como último dado activo queda un Dragón, se han perdido todos los puntos ac
 
 Si como último dado activo queda una Nave Espacial el turno del jugador acaba y se anotan los puntos que obtuvo.
 
-Si el último dado tiene cualquiera de las otras caras y no se puede hacer su acción, entonces el dado pasa al sector de Dados Utilizados y el jugador tiene la opción de tomar todos esos dados y volver a lanzarlos para seguir intentando conseguir dados con la cara 42 que es lo que otorga puntos. También puede optar por terminar su turno y obtener los puntos acumulados.
+Si el último dado tiene cualquiera de las otras caras y no se puede hacer su acción, entonces el dado pasa al sector de Dados Utilizados y 
+el jugador tiene la opción de tomar todos esos dados y volver a lanzarlos para seguir intentando conseguir dados con la cara 42 que es lo que otorga puntos. 
+También puede optar por terminar su turno y obtener los puntos acumulados.
 
 Esto se repite hasta que todos los jugadores hayan tenido 5 turnos cada uno.
