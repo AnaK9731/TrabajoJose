@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class ModelDados {
 
     /**
@@ -67,10 +69,16 @@ private int cantidadActivos, cantidadInactivos;
             valor[i] = "drake";
         }
     }
-        for (String s : valor) {
-            System.out.println(s);
-        }
+       // for (String s : valor) {
+            //System.out.println(s);
+       // }
+
+
     }
+    public String[] asignarValor(){
+        return valor;
+    }
+
 
     /**
      * Metodos que retornan la cantidad de objetos que hay en los dados inactivos y activos.
@@ -95,8 +103,10 @@ public int[] getCaras(){
     public static void main(String[] args) {
             ModelDados dado = new ModelDados();
             dado.getCaras();
-            dado.asignarPoder();
+            //dado.asignarPoder();
             dado.getDadosActivos();
             dado.getDadosInactivos();
+       // String[] valores = dado.asignarValor();
+       // System.out.println(Arrays.toString(valores));
     }
 }
