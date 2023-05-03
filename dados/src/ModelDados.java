@@ -69,15 +69,6 @@ private int cantidadActivos, cantidadInactivos;
             valor[i] = "drake";
         }
     }
-       // for (String s : valor) {
-            //System.out.println(s);
-       // }
-
-
-    }
-    public String[] asignarValor(){
-        return valor;
-    }
 
 
     /**

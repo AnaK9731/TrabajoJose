@@ -141,6 +141,15 @@ public class Gui extends JFrame {
         usedDiceLayout.repaint();
     }
 
+    public void accionesDados(){
+        modelDados.getasignarPoder();
+        //Cohete
+        if ("meeple".equals(modelDados.getasignarPoder())){
+
+
+        }
+
+    }
 
 
     public void asignarPoder() {
