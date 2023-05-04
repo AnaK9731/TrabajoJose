@@ -82,16 +82,10 @@ private int cantidadActivos, cantidadInactivos;
             valor[i] = "drake";
         }
     }
-       //for (String s : valor) {
-           // System.out.println(s);
-       // }
 
-
-    }
     public String[] asignarValor(){
         return valor;
     }
-
 
     /**
      * Metodos que retornan la cantidad de objetos que hay en los dados inactivos y activos.
