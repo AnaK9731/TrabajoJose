@@ -5,9 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
 public class Gui extends JFrame {
-
     //atributos
     private JPanel score, inactiveDice,activeDice, usedDice;
     private JPanel containerImage, inactiveDiceLayout, usedDiceLayout, scoreLayout;
@@ -19,7 +17,6 @@ public class Gui extends JFrame {
     private int contadorActivos = 0;
 
     //imagenes para los dados
-    private  JLabel dadoAAcciona;
     private JLabel dado1, dado2, dado3, dado4, dado5, dado6, dado7, dado8, dado9, dado10;
     private JButton startRound, help;
     private ModelDados modelDados;
@@ -27,9 +24,6 @@ public class Gui extends JFrame {
     private ImageIcon imageDados;
     private  Title title;
     private  Dados dice = new Dados();
-
-    private  String[] valor = {"", "", "", "", "", "", "", null, null, null};
-
 
     //crear la ventana
 
@@ -56,6 +50,7 @@ public class Gui extends JFrame {
         inactiveDiceLayout = new JPanel();
         usedDiceLayout = new JPanel();
         scoreLayout = new JPanel();
+
         dado1 = new JLabel(imageDados);
         dado2 = new JLabel(imageDados);
         dado3 = new JLabel(imageDados);
@@ -66,6 +61,7 @@ public class Gui extends JFrame {
         dado8 = new JLabel(imageDados);
         dado9 = new JLabel(imageDados);
         dado10 = new JLabel(imageDados);
+
         //Create listener object and control object
         escucha= new Escucha();
         modelDados= new ModelDados();
@@ -101,9 +97,6 @@ public class Gui extends JFrame {
         dado6.addMouseListener(escucha);
         dado7.addMouseListener(escucha);
 
-
-
-
         //Panel de score
         panelPrincipal.add(score);
         score.add(title = new Title("Puntaje", Color.black));
@@ -119,58 +112,22 @@ public class Gui extends JFrame {
         inactiveDice.add(title,BorderLayout.NORTH);
         inactiveDice.add(inactiveDiceLayout, BorderLayout.CENTER);
 
-
         //Panel dados usados.
         panelPrincipal.add(usedDice);
         usedDice.add(title = new Title("Dados usados", Color.black));
         usedDice.add(title, BorderLayout.NORTH);
         usedDice.add(usedDiceLayout, BorderLayout.CENTER);
 
-
-
-
         //anadimos el panel principal con el diseno a la ventana
         getContentPane().add(panelPrincipal);
     }
-
     /**
      * Metodo que me deja el panel de dados usados despues de empezar una ronda.
      */
     public void empezarRonda(){
         usedDiceLayout.revalidate();
         usedDiceLayout.repaint();
-    }
-
-    public void accionesDados(){
-        modelDados.getasignarPoder();
-        //Cohete
-        if ("meeple".equals(modelDados.getasignarPoder())){
-
-
-        }
-
-    }
-
-
-    public void asignarPoder() {
-        modelDados.obtenerValorCaras();
-        for (int i = 0; i < 7; i++) {
-            int[] caras = modelDados.getCaras();
-            String[] valor = {"", "", "", "", "", "", "", null, null, null};
-            if (caras[i] == 1) {
-                valor[i] = "meeple";
-            } else if (caras[i] == 6) {
-                valor[i] = "cohete";
-            } else if (caras[i] == 2) {
-                valor[i] = "points";
-            } else if (caras[i] == 5) {
-                valor[i] = "life";
-            } else if (caras[i] == 3) {
-                valor[i] = "hero";
-            } else if (caras[i] == 4) {
-                valor[i] = "drake";
-            }
-        }
+        contadorActivos++;
     }
     public static void main(String[] args) {
 
@@ -181,219 +138,87 @@ public class Gui extends JFrame {
             }
         });
     }
-
     private class Escucha implements ActionListener, MouseListener {
-
         //Para el boton de empezar ronda.
         @Override
         public void actionPerformed(ActionEvent e) {
-
-
-
-
             //Añadimos la opcion de visualizar una ayuda en la GUI. Lo que hacen los dados y las puntuaciones.
             if (e.getSource()==help){
-                imageDados=new ImageIcon(getClass().getResource("/recursos/ayuda.png"));
+                imageDados = new ImageIcon(getClass().getResource("/recursos/ayuda.png"));
                 Guide = new JLabel(imageDados);
                 JOptionPane.showMessageDialog(null, Guide, "Guia de Juego", JOptionPane.PLAIN_MESSAGE);
             }
-
-
             //Iniciar los valores de los dados al empezar ronda.
             if (e.getSource()== startRound && contadorActivos==0) {
-                modelDados.obtenerValorCaras();
-                //modelDados.asignarPoder();
+               // modelDados.asignarPoder();
+                JLabel arrayLabels[]={dado1,dado2,dado3,dado4,dado5,dado6,dado7,dado8,dado9,dado10};
                 int[] caras = modelDados.getCaras();
-                imageDados = new ImageIcon(getClass().getResource("/recursos/" + caras[0] + ".png"));
-                dado1.setIcon(imageDados);
-                imageDados = new ImageIcon(getClass().getResource("/recursos/" + caras[1] + ".png"));
-                dado2.setIcon(imageDados);
-                imageDados = new ImageIcon(getClass().getResource("/recursos/" + caras[2] + ".png"));
-                dado3.setIcon(imageDados);
-                imageDados = new ImageIcon(getClass().getResource("/recursos/" + caras[3] + ".png"));
-                dado4.setIcon(imageDados);
-                imageDados = new ImageIcon(getClass().getResource("/recursos/" + caras[4] + ".png"));
-                dado5.setIcon(imageDados);
-                imageDados = new ImageIcon(getClass().getResource("/recursos/" + caras[5] + ".png"));
-                dado6.setIcon(imageDados);
-                imageDados = new ImageIcon(getClass().getResource("/recursos/" + caras[6] + ".png"));
-                dado7.setIcon(imageDados);
-                imageDados = new ImageIcon(getClass().getResource("/recursos/" + caras[7] + ".png"));
-                dado8.setIcon(imageDados);
-                imageDados = new ImageIcon(getClass().getResource("/recursos/" + caras[8] + ".png"));
-                dado9.setIcon(imageDados);
-                imageDados = new ImageIcon(getClass().getResource("/recursos/" + caras[9] + ".png"));
-                dado10.setIcon(imageDados);
-                containerImage.add(dado1);
-                containerImage.add(dado2);
-                containerImage.add(dado3);
-                containerImage.add(dado4);
-                containerImage.add(dado5);
-                containerImage.add(dado6);
-                containerImage.add(dado7);
-                inactiveDiceLayout.add(dado8);
-                inactiveDiceLayout.add(dado9);
-                inactiveDiceLayout.add(dado10);
-                empezarRonda();
-                contadorActivos =0;
-            }
-        }
-
-        @Override
-        public void mouseClicked(MouseEvent e) {
-
-
-
-            /**for(int i = 0; i < modelDados.asignarValor().length; i++){
-                if (e.getSource() == dado1){
-                    if (valor[i].equals("meeple")){
-                        JOptionPane.showMessageDialog(null, "MEEPLE");
+                modelDados.obtenerValorCaras();
+                for (int i= 0; i<arrayLabels.length; i++){
+                    if (i>=7){
+                        imageDados = new ImageIcon(getClass().getResource("/recursos/" + caras[i] + ".png"));
+                        arrayLabels[i].setIcon(imageDados);
+                        inactiveDiceLayout.add(arrayLabels[i]);
+                    } else {
+                        imageDados = new ImageIcon(getClass().getResource("/recursos/" + caras[i] + ".png"));
+                        arrayLabels[i].setIcon(imageDados);
+                        containerImage.add(arrayLabels[i]);
                     }
                 }
-            }*/
 
-            if (e.getComponent() instanceof JLabel) {
-                if (e.getSource() == dado1) {
+                //Para contar si hay un drake o un 42
+                for (int i=0; i< caras.length; i++){
+                    if (caras[i]==4  && arrayLabels[i].isAncestorOf(containerImage)) {
+                        contadorActivos++;
+                        System.out.println(contadorActivos);
+                    } else if (caras[i]==2 && arrayLabels[i].isAncestorOf(containerImage)) {
+                        contadorActivos++;
+                        System.out.println(contadorActivos);
+                    }
+                }
+                empezarRonda();
+            }
+        }
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            //Creacion de Jlabels en un array para iterarlas de forma sencilla.
+            JLabel arrayLabel[]={dado1,dado2,dado3,dado4,dado5,dado6,dado7,dado8,dado9,dado10};
+            int[] caras = modelDados.getCaras();
+            //En este array anadimos una funcion para que cuando se de click en un dado en paneles activos, estos se quiten y se vayan
+            //A paneles usados.
+            for (int i=0; i<arrayLabel.length; i++){
+                if (e.getSource()==arrayLabel[i] && caras[i] !=4 && caras[i] != 2){
+                    System.out.println(contadorActivos);
                     contadorActivos++;
-                    activeDice.remove(dado1);
-                    usedDiceLayout.add(dado1);
-                    activeDice.revalidate();
-                    activeDice.repaint();
-                } if (e.getSource() == dado2) {
-                    contadorActivos++;
-                    activeDice.remove(dado2);
-                    usedDiceLayout.add(dado2);
-                    activeDice.revalidate();
-                    activeDice.repaint();
-                } if (e.getSource() == dado3) {
-                    contadorActivos++;
-                    activeDice.remove(dado3);
-                    usedDiceLayout.add(dado3);
-                    activeDice.revalidate();
-                    activeDice.repaint();
-                }if (e.getSource() == dado4) {
-                    contadorActivos++;
-                    activeDice.remove(dado4);
-                    usedDiceLayout.add(dado4);
-                    activeDice.revalidate();
-                    activeDice.repaint();
-                } if (e.getSource() == dado5) {
-                    contadorActivos++;
-                    activeDice.remove(dado5);
-                    usedDiceLayout.add(dado5);
-                    activeDice.revalidate();
-                    activeDice.repaint();
-                } if (e.getSource() == dado6) {
-                    contadorActivos++;
-                    activeDice.remove(dado6);
-                    usedDiceLayout.add(dado6);
-                    activeDice.revalidate();
-                    activeDice.repaint();
-                } if (e.getSource() == dado7) {
-                    contadorActivos++;
-                    activeDice.remove(dado7);
-                    usedDiceLayout.add(dado7);
-                    activeDice.revalidate();
-                    activeDice.repaint();
-                } if (e.getSource() == dado8 && containerImage.isAncestorOf(dado8)) {
-                    contadorActivos++;
-                    activeDice.remove(dado8);
-                    usedDiceLayout.add(dado8);
-                    activeDice.revalidate();
-                    activeDice.repaint();
-                } if (e.getSource() == dado9 && containerImage.isAncestorOf(dado9)) {
-                    contadorActivos++;
-                    activeDice.remove(dado9);
-                    usedDiceLayout.add(dado9);
-                    activeDice.revalidate();
-                    activeDice.repaint();
-                } if (e.getSource() == dado10 && containerImage.isAncestorOf(dado10)) {
-                    contadorActivos++;
-                    activeDice.remove(dado10);
-                    usedDiceLayout.add(dado10);
+                    activeDice.remove(arrayLabel[i]);
+                    usedDiceLayout.add(arrayLabel[i]);
                     activeDice.revalidate();
                     activeDice.repaint();
                 }
-
+            } if (contadorActivos >7) {
+                JOptionPane.showMessageDialog(null, "NO HAY MAS ACTIVOS LANZA LOS DADOS DE NUEVO.");
+                contadorActivos=0;
+            }
                 //Para probar que se esta contando bien los dados activos.
                 //Crear un metodo que verifique si es un dragon o un PUNTO, y sume a los dados activos.
                 //Crear un metodo que cuando se seleccione un corazon no se sume a los dados activos.
                 //Quitarle el evento del click al 42 y al drake.
-                }if (contadorActivos == 7) {
-                JOptionPane.showMessageDialog(null, "NO HAY MAS ACTIVOS LANZA LOS DADOS DE NUEVO.");
-                contadorActivos=0;
-            }
 
-            int[] caras = modelDados.getCaras();
-            if (e.getSource() == dado1 && caras[0]== 1){
-                JOptionPane.showMessageDialog(null, "Vuelve a lanzar uno de los dados activos.");
-            } else  if (e.getSource() == dado2 && caras[1]== 1){
-                JOptionPane.showMessageDialog(null, "Meeple");
-            }else  if (e.getSource() == dado3 && caras[2]== 1){
-                JOptionPane.showMessageDialog(null, "Meeple");
-            } else if (e.getSource() == dado4 && caras[3]== 1){
-                JOptionPane.showMessageDialog(null, "Meeple");
-            }else  if (e.getSource() == dado5 && caras[4]== 1){
-                JOptionPane.showMessageDialog(null, "Meeple");
-            }else  if (e.getSource() == dado6 && caras[5]== 1){
-                JOptionPane.showMessageDialog(null, "Meeple");
-            }else  if (e.getSource() == dado7 && caras[6]== 1){
-                JOptionPane.showMessageDialog(null, "Meeple");
-            }
-
-
-
-
-
-            //ACCION HERO
-            if (e.getSource() == dado1 && caras[0]== 3){
-                JOptionPane.showMessageDialog(null, "HERO");
-            }else  if (e.getSource() == dado2 && caras[1]== 3){
-                JOptionPane.showMessageDialog(null, "HERO");
-            }else  if (e.getSource() == dado3 && caras[2]== 3){
-                JOptionPane.showMessageDialog(null, "HERO");
-            } else if (e.getSource() == dado4 && caras[3]== 3){
-                JOptionPane.showMessageDialog(null, "HERO");
-            }else  if (e.getSource() == dado5 && caras[4]== 3){
-                JOptionPane.showMessageDialog(null, "HERO");
-            }else  if (e.getSource() == dado6 && caras[5]== 3){
-                JOptionPane.showMessageDialog(null, "HERO");
-            }else  if (e.getSource() == dado7 && caras[6]== 3){
-                JOptionPane.showMessageDialog(null, "HERO");
-            }
-
-            //ACCION COHETE
-            if (e.getSource() == dado1 && caras[0]== 6){
-                JOptionPane.showMessageDialog(null, "COHETE");
-            }else  if (e.getSource() == dado2 && caras[1]== 6){
-                JOptionPane.showMessageDialog(null, "COHETE");
-            }else  if (e.getSource() == dado3 && caras[2]== 6){
-                JOptionPane.showMessageDialog(null, "COHETE");
-            } else if (e.getSource() == dado4 && caras[3]== 6){
-                JOptionPane.showMessageDialog(null, "COHETE");
-            }else  if (e.getSource() == dado5 && caras[4]== 6){
-                JOptionPane.showMessageDialog(null, "COHETE");
-            }else  if (e.getSource() == dado6 && caras[5]== 6){
-                JOptionPane.showMessageDialog(null, "COHETE");
-            }else  if (e.getSource() == dado7 && caras[6]== 6){
-                JOptionPane.showMessageDialog(null, "COHETE");
-            }
-
-            //ACCION CORAZON
-            if (e.getSource() == dado1 && caras[0]== 5){
-                JOptionPane.showMessageDialog(null, "CORAZON");
-            }else  if (e.getSource() == dado2 && caras[1]== 5){
-                JOptionPane.showMessageDialog(null, "CORAZON");
-            }else  if (e.getSource() == dado3 && caras[2]== 5){
-                JOptionPane.showMessageDialog(null, "CORAZON");
-            } else if (e.getSource() == dado4 && caras[3]== 5){
-                JOptionPane.showMessageDialog(null, "CORAZON");
-            }else  if (e.getSource() == dado5 && caras[4]== 5){
-                JOptionPane.showMessageDialog(null, "CORAZON");
-            }else  if (e.getSource() == dado6 && caras[5]== 5){
-                JOptionPane.showMessageDialog(null, "CORAZON");
-            }else  if (e.getSource() == dado7 && caras[6]== 5){
-                JOptionPane.showMessageDialog(null, "CORAZON");
+            //En este ciclo reconocemos el valor que tiene caras[] y si es ==1 seria un meeple y asi con cada cara y su valor.
+            //Lo que buscamos aca es intentar implementar una forma en la cual se llamen los escuchas de cada accion
+            //Para asi poder aplicarlos.
+            for (int i= 0; i<arrayLabel.length; i++){
+                if (e.getSource()==arrayLabel[i] &&caras[i]==1){
+                    JOptionPane.showMessageDialog(null, "MEEPLE");
+                    arrayLabel[i].removeMouseListener(escucha);
+                    arrayLabel[i].addMouseListener(meeple);
+                } else if (e.getSource()==arrayLabel[i] && caras[i]==3) {
+                    JOptionPane.showMessageDialog(null, "HERO");
+                }else if (e.getSource()==arrayLabel[i] && caras[i]==5) {
+                    JOptionPane.showMessageDialog(null, "CORAZON");
+                }else if (e.getSource()==arrayLabel[i] && caras[i]==6) {
+                    JOptionPane.showMessageDialog(null, "COHETE");
+                }
             }
         }
         @Override
@@ -416,20 +241,27 @@ public class Gui extends JFrame {
 
         }
     }
-
-    private class Meeple implements MouseListener{
-
+    private class Meeple implements MouseListener {
         @Override
         public void mouseClicked(MouseEvent e) {
+            JLabel arrayLabel[]={dado1,dado2,dado3,dado4,dado5,dado6,dado7,dado8,dado9,dado10};
+            int[] caras = modelDados.getCaras();
 
-            //Para la cara 1 y 2
-            int [] caras = modelDados.getCaras();
-            caras[1] = dice.getCara();
-            imageDados = new ImageIcon(getClass().getResource("/recursos/" + caras[1] + ".png"));
-            dado2.setIcon(imageDados);
-            dado2.removeMouseListener(this);
-            dado2.addMouseListener(meeple);
+            //En este array anadimos una funcion para que cuando se de click en un dado en paneles activos, estos se quiten y se vayan
+            //A paneles usados.
 
+            for (int i=0; i<arrayLabel.length; i++) {
+                if (e.getSource() == arrayLabel[i] ) {
+                    caras[i]= dice.getCara();
+                    imageDados = new ImageIcon(getClass().getResource("/recursos/" + caras[i] + ".png"));
+                    arrayLabel[i].setIcon(imageDados);
+                    containerImage.add(arrayLabel[i]);
+                    activeDice.revalidate();
+                    activeDice.repaint();
+                    arrayLabel[i].removeMouseListener(this);
+                    addMouseListener(escucha);
+                }
+            }
         }
 
         @Override

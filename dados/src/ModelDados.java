@@ -5,7 +5,8 @@ public class ModelDados {
     /**
      * Atributos de mi clase
      */
-    private Dados dado1, dado2, dado3, dado4, dado5, dado6, dado7, dado8, dado9, dado10;
+    private Dados [] dado;
+    //private Dados dado1, dado2, dado3, dado4, dado5, dado6, dado7, dado8, dado9, dado10;
 private int meeple, hero, drake, cohete, points, extraLife;
 private int [] caras;
 private int dadosActivos;
@@ -18,6 +19,11 @@ private int cantidadActivos, cantidadInactivos;
      * Constructor
      */
     public ModelDados(){
+        dado = new Dados[10];
+        for (int i=0; i<10;i++){
+            dado[i] =new Dados();
+        }
+        /*
     dado1 = new Dados();
     dado2 = new Dados();
     dado3 = new Dados();
@@ -28,6 +34,7 @@ private int cantidadActivos, cantidadInactivos;
     dado8 = new Dados();
     dado9 = new Dados();
     dado10 = new Dados();
+         */
     caras = new int[10];
 }
 
@@ -35,6 +42,10 @@ private int cantidadActivos, cantidadInactivos;
      * Obtenemos el valor de caras
      */
     public void obtenerValorCaras(){
+        for (int i=0; i<caras.length; i++){
+            caras[i]=dado[i].getCara();
+        }
+        /*
     caras[0]= dado1.getCara();
     caras[1]= dado2.getCara();
     caras[2]= dado3.getCara();
@@ -45,6 +56,8 @@ private int cantidadActivos, cantidadInactivos;
     caras[7]= dado8.getCara();
     caras[8]= dado9.getCara();
     caras[9]= dado10.getCara();
+
+         */
 }
 
     /**
@@ -70,6 +83,9 @@ private int cantidadActivos, cantidadInactivos;
         }
     }
 
+    public String[] asignarValor(){
+        return valor;
+    }
 
     /**
      * Metodos que retornan la cantidad de objetos que hay en los dados inactivos y activos.
@@ -94,7 +110,7 @@ public int[] getCaras(){
     public static void main(String[] args) {
             ModelDados dado = new ModelDados();
             dado.getCaras();
-            //dado.asignarPoder();
+            dado.asignarPoder();
             dado.getDadosActivos();
             dado.getDadosInactivos();
        // String[] valores = dado.asignarValor();
