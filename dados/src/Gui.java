@@ -7,7 +7,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 public class Gui extends JFrame {
     //atributos
-    private JPanel score, inactiveDice, activeDice, usedDice;
+    private JPanel score, inactiveDice, activeDice, usedDice, Botones, Decoracion;
     private JPanel containerImage, inactiveDiceLayout, usedDiceLayout, scoreLayout;
     private JPanel panelPrincipal;
     private boolean primerClick = true;
@@ -15,34 +15,42 @@ public class Gui extends JFrame {
     private int contadorDados = 0;
     //Label para mostrar una imagen con la ayuda en el JOPTION PANE
     private JLabel Guide;
+
+
     private int contadorActivos = 0;
     //imagenes para los dados
-    private JLabel dado1, dado2, dado3, dado4, dado5, dado6, dado7, dado8, dado9, dado10;
-    private JButton startRound, help;
+    private JLabel dado1, dado2, dado3, dado4, dado5, dado6, dado7, dado8, dado9, dado10, Deco;
+    private JButton startRound, help, NextRound;
     private ModelDados modelDados;
     private Escucha escucha;
     private ImageIcon imageDados;
     private Title title;
     private Dados dice = new Dados();
+    private ImageIcon imagen;
+
     //crear la ventana
     public Gui() {
-        initGUI();
-        this.setTitle("Geek out masters");
-        this.setSize(705, 500);
-        this.setVisible(true);
-        this.setResizable(false);
-        this.setLocationRelativeTo(null);
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+            initGUI();
+            this.setTitle("Geek out masters");
+            this.setSize(750, 500);
+            this.setVisible(true);
+            this.setResizable(false);
+            this.setLocationRelativeTo(null);
+            this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+
     }
     private void initGUI() {
         /**
          * se crea un panel con el diseno que queremos aplicar Osea gridBagLayout
-          */
-        panelPrincipal = new JPanel(new GridLayout(2, 2));
+         */
+        panelPrincipal = new JPanel(new GridLayout(2, 3));
         score = new JPanel(new BorderLayout());
         inactiveDice = new JPanel(new BorderLayout());
         activeDice = new JPanel(new BorderLayout());
         usedDice = new JPanel(new BorderLayout());
+        Botones = new JPanel(new BorderLayout());
+        Decoracion= new JPanel(new BorderLayout());
+
         /**
          * Paneles que van dentro de los paneles, para poder meter dentro las imagenes o txt area.
          */
@@ -50,6 +58,8 @@ public class Gui extends JFrame {
         inactiveDiceLayout = new JPanel();
         usedDiceLayout = new JPanel();
         scoreLayout = new JPanel();
+        Botones= new JPanel();
+        Decoracion= new JPanel();
         dado1 = new JLabel(imageDados);
         dado2 = new JLabel(imageDados);
         dado3 = new JLabel(imageDados);
@@ -60,17 +70,22 @@ public class Gui extends JFrame {
         dado8 = new JLabel(imageDados);
         dado9 = new JLabel(imageDados);
         dado10 = new JLabel(imageDados);
+
         //Create listener object and control object
         escucha = new Escucha();
         modelDados = new ModelDados();
+
         //Titulo para la ventana mostrando el nombre de geekoutMasters
         //panelPrincipal.add(title=new Title("Geek Out Masters", Color.GRAY));
         //Ponemos bordes en cada panel xd
-        Border border = BorderFactory.createLineBorder(Color.black);
-        score.setBorder(border);
+        Border border = BorderFactory.createLineBorder(Color.red);
+        Border border2 = BorderFactory.createLineBorder(Color.blue);
         inactiveDice.setBorder(border);
         activeDice.setBorder(border);
         usedDice.setBorder(border);
+        Botones.setBorder(border2);
+        score.setBorder(border2);
+        Decoracion.setBorder(border2);
         /**
          * se anaden los paneles al panel con el diseno de cuatro partes
          */
@@ -78,12 +93,15 @@ public class Gui extends JFrame {
          * Panel de dados activos.
          */
         panelPrincipal.add(activeDice);
-        activeDice.add(title = new Title("Dados activos", Color.GRAY));
+        activeDice.setBackground(Color.black);
+        activeDice.add(title = new Title("Dados activos", Color.BLACK));
+        title.setForeground(Color.white);
+        Font font1 = new Font("Arial", Font.BOLD, 24);
+        title.setFont(font1);
         activeDice.add(title, BorderLayout.NORTH);
         activeDice.add(containerImage, BorderLayout.CENTER);
-        startRound = new JButton("Gira los dados");
-        startRound.addActionListener(escucha);
-        activeDice.add(startRound, BorderLayout.SOUTH);
+
+
         /**
          * Escuchas para añadir a panel de dados activos
          */
@@ -94,25 +112,94 @@ public class Gui extends JFrame {
         dado5.addMouseListener(escucha);
         dado6.addMouseListener(escucha);
         dado7.addMouseListener(escucha);
+
+        //Panel dados inactivos
+
+        panelPrincipal.add(inactiveDice);
+        inactiveDice.setBackground(Color.white);
+        inactiveDice.add(title = new Title("Dados Inactivos", Color.black));
+        inactiveDice.add(title, BorderLayout.NORTH);
+        title.setForeground(Color.white);
+        Font font2 = new Font("Arial", Font.BOLD, 24);
+        title.setFont(font2);
+        inactiveDice.add(inactiveDiceLayout, BorderLayout.CENTER);
+
+
+        //Panel dados usados.
+
+        panelPrincipal.add(usedDice);
+        usedDice.setBackground(Color.white);
+        usedDice.add(title = new Title("Dados usados", Color.black));
+        usedDice.add(title, BorderLayout.NORTH);
+        title.setForeground(Color.white);
+        Font font3 = new Font("Arial", Font.BOLD, 24);
+        title.setFont(font3);
+        usedDice.add(usedDiceLayout, BorderLayout.CENTER);
+
+
         /**
          * Panel de score
          */
-        panelPrincipal.add(score);
+
+        // Creación de los componentes de texto
+        JLabel textoPuntajeTotal = new JLabel();
+        textoPuntajeTotal.setHorizontalAlignment(SwingConstants.CENTER);
+
+
+        // Configuración de los componentes de texto
+        textoPuntajeTotal.setText("Puntaje Total: ");
+        Font fontScore = new Font("Arial", Font.BOLD, 20);
+        textoPuntajeTotal.setFont(fontScore);
+
+        panelPrincipal.add(score); // Agregar el panel de puntaje al panel principal
+        score.setBackground(Color.white);
+
+        // Creación y configuración del panel de puntaje
         score.add(title = new Title("Puntaje", Color.black));
         score.add(title, BorderLayout.NORTH);
+        title.setForeground(Color.white);
+        Font font4 = new Font("Arial", Font.BOLD, 24);
+        title.setFont(font4);
+        score.add(textoPuntajeTotal, BorderLayout.CENTER);
+
+
+
+        /**Panel de Botones*/
+
+        panelPrincipal.add(Botones);
+        Botones.setLayout(new FlowLayout(FlowLayout.CENTER)); //Establecemos un FlowLayout centrado
+        Botones.setBackground(Color.white);
+
+        //boton guia
         help = new JButton("Guia");
         help.addActionListener(escucha);
-        score.add(help, BorderLayout.PAGE_END);
-        //Panel dados inactivos
-        panelPrincipal.add(inactiveDice);
-        inactiveDice.add(title = new Title("Dados Inactivos", Color.GRAY));
-        inactiveDice.add(title, BorderLayout.NORTH);
-        inactiveDice.add(inactiveDiceLayout, BorderLayout.CENTER);
-        //Panel dados usados.
-        panelPrincipal.add(usedDice);
-        usedDice.add(title = new Title("Dados usados", Color.black));
-        usedDice.add(title, BorderLayout.NORTH);
-        usedDice.add(usedDiceLayout, BorderLayout.CENTER);
+        help.setBackground(Color.red);
+        help.setPreferredSize(new Dimension(120, 30)); //Establecemos un tamaño preferido pequeño
+        Botones.add(help);
+
+
+        //boton inicio de juego
+        startRound = new JButton("Gira los dados");
+        startRound.addActionListener(escucha);
+        startRound.setBackground(Color.green);
+        startRound.setPreferredSize(new Dimension(120, 30)); //Establecemos un tamaño preferido pequeño
+        Botones.add(startRound);
+
+        //boton Siguiente Ronda
+        NextRound = new JButton("Siguente Ronda");
+        NextRound.setBackground(Color.orange);
+        NextRound.addActionListener(escucha);
+        NextRound.setPreferredSize(new Dimension(150, 30)); //Establecemos un tamaño preferido pequeño
+        Botones.add(NextRound);
+
+        //PANEL DECORATIVO
+        panelPrincipal.add(Decoracion);
+        imagen = new ImageIcon(getClass().getResource("/recursos/Deco.png"));
+        Deco = new JLabel();
+        Deco.setIcon(imagen);
+        Decoracion.add(Deco, BorderLayout.CENTER );
+        Decoracion.setBackground(Color.white);
+
         //anadimos el panel principal con el diseno a la ventana
         getContentPane().add(panelPrincipal);
     }
