@@ -7,27 +7,26 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 public class Gui extends JFrame {
     //atributos
+    private int contadorDadosActivos=1, puntajeTotal=0;
     private JPanel score, inactiveDice, activeDice, usedDice, Botones, Decoracion;
     private JPanel containerImage, inactiveDiceLayout, usedDiceLayout, scoreLayout;
     private JPanel panelPrincipal;
+    private  JTextArea scoreGame;
     private boolean primerClick = true;
-    private int estado = 0;
-    private int contadorDados = 0;
+    private int puntaje =0;
+    private int estado = 0, ronda=1;
     //Label para mostrar una imagen con la ayuda en el JOPTION PANE
     private JLabel Guide;
-
-
-    private int contadorActivos = 0;
     //imagenes para los dados
     private JLabel dado1, dado2, dado3, dado4, dado5, dado6, dado7, dado8, dado9, dado10, Deco;
     private JButton startRound, help, NextRound;
     private ModelDados modelDados;
+    private JScrollPane scrollPane;
     private Escucha escucha;
     private ImageIcon imageDados;
     private Title title;
     private Dados dice = new Dados();
     private ImageIcon imagen;
-
     //crear la ventana
     public Gui() {
             initGUI();
@@ -37,7 +36,6 @@ public class Gui extends JFrame {
             this.setResizable(false);
             this.setLocationRelativeTo(null);
             this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-
     }
     private void initGUI() {
         /**
@@ -70,6 +68,8 @@ public class Gui extends JFrame {
         dado8 = new JLabel(imageDados);
         dado9 = new JLabel(imageDados);
         dado10 = new JLabel(imageDados);
+        scoreGame= new JTextArea();
+        scrollPane = new JScrollPane(scoreGame);
 
         //Create listener object and control object
         escucha = new Escucha();
@@ -102,16 +102,7 @@ public class Gui extends JFrame {
         activeDice.add(containerImage, BorderLayout.CENTER);
 
 
-        /**
-         * Escuchas para añadir a panel de dados activos
-         */
-        dado1.addMouseListener(escucha);
-        dado2.addMouseListener(escucha);
-        dado3.addMouseListener(escucha);
-        dado4.addMouseListener(escucha);
-        dado5.addMouseListener(escucha);
-        dado6.addMouseListener(escucha);
-        dado7.addMouseListener(escucha);
+
 
         //Panel dados inactivos
 
@@ -140,31 +131,32 @@ public class Gui extends JFrame {
         /**
          * Panel de score
          */
-
         // Creación de los componentes de texto
-        JLabel textoPuntajeTotal = new JLabel();
-        textoPuntajeTotal.setHorizontalAlignment(SwingConstants.CENTER);
+        //JLabel textoPuntajeTotal = new JLabel();
+        // textoPuntajeTotal.setHorizontalAlignment(SwingConstants.CENTER);
 
 
         // Configuración de los componentes de texto
-        textoPuntajeTotal.setText("Puntaje Total: ");
-        Font fontScore = new Font("Arial", Font.BOLD, 20);
-        textoPuntajeTotal.setFont(fontScore);
-
+        // textoPuntajeTotal.setText("Puntaje Total: ");
+        // Font fontScore = new Font("Arial", Font.BOLD, 20);
+        //textoPuntajeTotal.setFont(fontScore);
         panelPrincipal.add(score); // Agregar el panel de puntaje al panel principal
         score.setBackground(Color.white);
-
+        scoreGame.setEditable(false);
         // Creación y configuración del panel de puntaje
         score.add(title = new Title("Puntaje", Color.black));
         score.add(title, BorderLayout.NORTH);
         title.setForeground(Color.white);
         Font font4 = new Font("Arial", Font.BOLD, 24);
         title.setFont(font4);
-        score.add(textoPuntajeTotal, BorderLayout.CENTER);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        score.add(scrollPane, BorderLayout.EAST);
+        score.add(scoreGame, BorderLayout.CENTER);
+        //score.add(textoPuntajeTotal, BorderLayout.CENTER);
 
-
-
-        /**Panel de Botones*/
+        /**
+         * Panel de Botones
+         */
 
         panelPrincipal.add(Botones);
         Botones.setLayout(new FlowLayout(FlowLayout.CENTER)); //Establecemos un FlowLayout centrado
@@ -203,8 +195,6 @@ public class Gui extends JFrame {
         //anadimos el panel principal con el diseno a la ventana
         getContentPane().add(panelPrincipal);
     }
-
-
     /**
      * Metodo que nos deja visualizar o no un componente de un conteneder.
      * @param container
@@ -221,6 +211,86 @@ public class Gui extends JFrame {
         }
     }
     /**
+     * Intento de puntaje.
+     */
+    private void gameScore(){
+        JLabel arrayLabel[] = {dado1, dado2, dado3, dado4, dado5, dado6, dado7, dado8, dado9, dado10};
+        int[] caras = modelDados.getCaras();
+        for (int i = 0; i < arrayLabel.length; i++) {
+            // Verificar si quedaron dados con la cara de 42 activos
+            if (caras[i]==2 && activeDice.isAncestorOf(arrayLabel[i] ) && contadorDadosActivos==0) {
+                puntaje++;
+                break;
+            } else if (caras[i]==4 && contadorDadosActivos==0) {
+                puntaje=0;
+                scoreGame.append("\nPERDIO TODOS LOS PUNTOS.\n Puntaje de ronda= "+ puntaje);
+                break;
+            }
+        }
+        puntajeTotal = puntaje;
+        if (contadorDadosActivos == 0 && primerClick==true && puntaje==1){
+            scoreGame.append("\nSu puntaje fue de 1");
+        } else if (contadorDadosActivos == 0 && primerClick==true && puntaje==2) {
+            scoreGame.append("\nSu puntaje fue de 3");
+        }else if (contadorDadosActivos == 0 && primerClick==true && puntaje==3) {
+            scoreGame.append("\nSu puntaje fue de 6");
+        }else if (contadorDadosActivos == 0 && primerClick==true && puntaje==4) {
+            scoreGame.append("\nSu puntaje fue de 10");
+        }else if (contadorDadosActivos == 0 && primerClick==true && puntaje==5) {
+            scoreGame.append("\nSu puntaje fue de 15");
+        }else if (contadorDadosActivos == 0 && primerClick==true && puntaje==6) {
+            scoreGame.append("\nSu puntaje fue de 21");
+        }else if (contadorDadosActivos == 0 && primerClick==true && puntaje==7) {
+            scoreGame.append("\nSu puntaje fue de 28");
+        }else if (contadorDadosActivos == 0 && primerClick==true && puntaje==8) {
+            scoreGame.append("\nSu puntaje fue de 36");
+        }else if (contadorDadosActivos == 0 && primerClick==true && puntaje==9) {
+            scoreGame.append("\nSu puntaje fue de 45");
+        }else if (contadorDadosActivos == 0 && primerClick==true && puntaje==10) {
+            scoreGame.append("\nSu puntaje fue de 55");
+        }
+    }
+    private void reiniciarRonda() {
+        // Restablecer los valores predeterminados de la ronda
+        estado = 0;
+        primerClick = true;
+
+        // Restablecer la visibilidad de los componentes y limpiar los paneles
+        containerImage.removeAll();
+        inactiveDiceLayout.removeAll();
+        usedDiceLayout.removeAll();
+        setComponentsEnabled(containerImage, true);
+        setComponentsEnabled(inactiveDiceLayout, false);
+
+        // Añadir los componentes por defecto
+        containerImage.add(dado1);
+        containerImage.add(dado2);
+        containerImage.add(dado3);
+        containerImage.add(dado4);
+        containerImage.add(dado5);
+        containerImage.add(dado6);
+        containerImage.add(dado7);
+        /**
+         * Escuchas para añadir a panel de dados activos
+         */
+        dado1.removeMouseListener(escucha);
+        dado2.removeMouseListener(escucha);
+        dado3.removeMouseListener(escucha);
+        dado4.removeMouseListener(escucha);
+        dado5.removeMouseListener(escucha);
+        dado6.removeMouseListener(escucha);
+        dado7.removeMouseListener(escucha);
+
+        // Actualizar los paneles
+        containerImage.revalidate();
+        containerImage.repaint();
+        inactiveDiceLayout.revalidate();
+        inactiveDiceLayout.repaint();
+        usedDiceLayout.revalidate();
+        usedDiceLayout.repaint();
+        contadorDadosActivos=1;
+    }
+    /**
      * Metodo que me deja el panel de dados usados despues de empezar una ronda.
      */
     public void empezarRonda() {
@@ -230,7 +300,54 @@ public class Gui extends JFrame {
         inactiveDiceLayout.repaint();
         usedDiceLayout.revalidate();
         usedDiceLayout.repaint();
+        /**
+         * Escuchas para añadir a panel de dados activos
+         */
+        dado1.addMouseListener(escucha);
+        dado2.addMouseListener(escucha);
+        dado3.addMouseListener(escucha);
+        dado4.addMouseListener(escucha);
+        dado5.addMouseListener(escucha);
+        dado6.addMouseListener(escucha);
+        dado7.addMouseListener(escucha);
     }
+
+    /**
+     * Cuenta la cantidad de dados activos
+     * Se itera en un for y usando el metodo isAncestorOf, verifica solo los componentes que pertenecen al panel de active dice y solo verifica a las labels que pertenecen a el
+     * Si son distintas de 4 y 2, se cumple el condicional y entra y lo suma a dados activos.
+     * Luego guardo en una variable lo que dio en el for, si en el esta variable dio 0 y ademas el estado de primerClick es true se ejecuta el JoptionPane
+     * Por que? Porque si la variable primer click es false, me esta diciendo que aun hay un evento por jugarse. Sumamos a cantidad de rondas.
+     * Aca añadimos un condicional al habilitar siguiente ronda, inicia en 1 siempre para que cuando se giren los dados el boton next round no pueda ser clickeado. Si el valor de dados activos es 0 si podra ser clickeado
+     */
+    public void contarDadosActivos() {
+        JLabel arrayLabel[] = {dado1, dado2, dado3, dado4, dado5, dado6, dado7, dado8, dado9, dado10};
+        int[] caras = modelDados.getCaras();
+        int cantidadDadosActivos=0;
+
+        for (int i = 0; i < arrayLabel.length; i++) {
+            // Verificar si la cara del dado no es 4 ni 2
+            if (caras[i] != 4 && caras[i] != 2 && activeDice.isAncestorOf(arrayLabel[i])) {
+                cantidadDadosActivos++;
+                System.out.println(cantidadDadosActivos);
+            }
+        }
+
+        contadorDadosActivos = cantidadDadosActivos;
+        if (contadorDadosActivos == 0 && primerClick==true) {
+            JOptionPane.showMessageDialog(null, "Reinicie la ronda y gire los dados");
+            NextRound.setEnabled(true); // Habilitar el botón "NextRound"
+            ronda++;
+            gameScore();
+            cantidadRondas();
+        }
+    }
+    private void cantidadRondas(){
+        if (ronda==5){
+            JOptionPane.showMessageDialog(null, "Usted finalizo sus 5 turnos.");
+        }
+    }
+
     public static void main(String[] args) {
 
         EventQueue.invokeLater(new Runnable() {
@@ -243,6 +360,16 @@ public class Gui extends JFrame {
     private class Escucha implements ActionListener, MouseListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            //Mostramos la cantidad de rondas
+            if (e.getSource()==startRound){
+                scoreGame.append("\nRonda #"+ronda+"\n");
+            }
+            //Reiniciamos la ronda y activamos los botones.
+            if (e.getSource() == NextRound && contadorDadosActivos==0) {
+                startRound.setEnabled(true);
+                NextRound.setEnabled(false); //  Deshabilitar el botón "NextRound"
+                reiniciarRonda();
+            }
             /**
              * Añadimos la opcion de visualizar una ayuda en la GUI. Lo que hacen los dados y las puntuaciones.
              */
@@ -255,6 +382,8 @@ public class Gui extends JFrame {
              * Iniciar los valores de los dados al empezar ronda.
              */
             if (e.getSource() == startRound ) {
+                NextRound.setEnabled(false); //  Deshabilitar el botón "NextRound"
+                startRound.setEnabled(false);//  Deshabilitar el botón "GirarDados"
                 JLabel arrayLabels[] = {dado1, dado2, dado3, dado4, dado5, dado6, dado7, dado8, dado9, dado10};
                 int[] caras = modelDados.getCaras();
                 modelDados.obtenerValorCaras();
@@ -268,8 +397,10 @@ public class Gui extends JFrame {
                         imageDados = new ImageIcon(getClass().getResource("/recursos/" + caras[i] + ".png"));
                         arrayLabels[i].setIcon(imageDados);
                         containerImage.add(arrayLabels[i]);
+                        setComponentsEnabled(activeDice, true);
                     }
                 }
+                contarDadosActivos();
                 empezarRonda();
             }
         }
@@ -281,6 +412,7 @@ public class Gui extends JFrame {
             /**
              * Acciones dados. PRIMER CLICK
              */
+
             for (int i = 0; i < arrayLabel.length; i++) {
                 if (e.getSource() == arrayLabel[i]) {
                     if (primerClick) {
@@ -296,6 +428,7 @@ public class Gui extends JFrame {
                             containerImage.repaint();
                             estado= 1;
                             primerClick = false;
+                            contarDadosActivos();
                         }
                         /**
                          * Accion COHETE
@@ -309,6 +442,7 @@ public class Gui extends JFrame {
                             usedDiceLayout.add(arrayLabel[i]);
                             estado= 6;
                             primerClick = false;
+                            contarDadosActivos();
                         }
                         /**
                          * Accion CORAZON
@@ -327,6 +461,7 @@ public class Gui extends JFrame {
                             setComponentsEnabled(containerImage, false);
                             estado= 5;
                             primerClick = false;
+                            contarDadosActivos();
                         }
                         /**
                          * Accion HERO
@@ -340,6 +475,7 @@ public class Gui extends JFrame {
                             containerImage.repaint();
                             estado= 3;
                             primerClick = false;
+                            contarDadosActivos();
                         }
                     } else {
                         /**
@@ -351,11 +487,12 @@ public class Gui extends JFrame {
                             caras[i]=dice.getCara();
                             imageDados = new ImageIcon(getClass().getResource("/recursos/" + caras[i] + ".png"));
                             arrayLabel[i].setIcon(imageDados);
-                            arrayLabel[i].addMouseListener(this);
+                           // arrayLabel[i].addMouseListener(this);
                             containerImage.revalidate();
                             containerImage.repaint();
                             estado=0;
                             primerClick = true;
+                            contarDadosActivos();
                         }
                         /**
                          * Accion COHETE
@@ -371,6 +508,7 @@ public class Gui extends JFrame {
                             setComponentsEnabled(inactiveDiceLayout, false);
                             estado=0;
                             primerClick = true;
+                            contarDadosActivos();
                         }
                         /**
                          * Accion CORAZON
@@ -393,6 +531,7 @@ public class Gui extends JFrame {
                             dado10.removeMouseListener(this);
                             estado = 0;
                             primerClick = true;
+                            contarDadosActivos();
                         }
                         /**
                          * Accion HERO
@@ -408,6 +547,7 @@ public class Gui extends JFrame {
                             containerImage.repaint();
                             estado=0;
                             primerClick = true;
+                            contarDadosActivos();
                         }
                     }
                     break;
