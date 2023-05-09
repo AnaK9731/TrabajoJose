@@ -303,7 +303,7 @@ public class Gui extends JFrame {
 
     /**
      * Cuenta la cantidad de dados activos
-     * Se itera en un for y usando el metodo isAncestorOf, verifica solo los componentes que pertenecen al panel de active dice y solo verifica a las labels que pertenecen a el
+     * Se itera en un for y usando el metodo isAncestorOf, verifica solo los componentes que pertenecen al panel de ActiveDice y solo verifica a las labels que pertenecen a el
      * Si son distintas de 4 y 2, se cumple el condicional y entra y lo suma a dados activos.
      * Luego guardo en una variable lo que dio en el for, si en el esta variable dio 0 y ademas el estado de primerClick es true se ejecuta el JoptionPane
      * Por que? Porque si la variable primer click es false, me esta diciendo que aun hay un evento por jugarse. Sumamos a cantidad de rondas.
