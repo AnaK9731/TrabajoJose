@@ -5,16 +5,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.JScrollPane;
 public class Gui extends JFrame {
     //atributos
     private int contadorDadosActivos=1, puntajeTotal=0;
     private JPanel score, inactiveDice, activeDice, usedDice, Botones, Decoracion;
     private JPanel containerImage, inactiveDiceLayout, usedDiceLayout, scoreLayout;
     private JPanel panelPrincipal;
-    private  JTextArea scoreGame;
+    private  JTextArea textGame;
     private boolean primerClick = true;
     private int puntaje =0;
-    private int estado = 0, ronda=1;
+    private int estado = 0, ronda=0;
     //Label para mostrar una imagen con la ayuda en el JOPTION PANE
     private JLabel Guide;
     //imagenes para los dados
@@ -68,8 +70,8 @@ public class Gui extends JFrame {
         dado8 = new JLabel(imageDados);
         dado9 = new JLabel(imageDados);
         dado10 = new JLabel(imageDados);
-        scoreGame= new JTextArea();
-        scrollPane = new JScrollPane(scoreGame);
+        textGame= new JTextArea();
+        scrollPane = new JScrollPane(textGame, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 
         //Create listener object and control object
         escucha = new Escucha();
@@ -127,37 +129,26 @@ public class Gui extends JFrame {
         title.setFont(font3);
         usedDice.add(usedDiceLayout, BorderLayout.CENTER);
 
-
         /**
          * Panel de score
          */
-        // Creación de los componentes de texto
-        //JLabel textoPuntajeTotal = new JLabel();
-        // textoPuntajeTotal.setHorizontalAlignment(SwingConstants.CENTER);
-
-
-        // Configuración de los componentes de texto
-        // textoPuntajeTotal.setText("Puntaje Total: ");
-        // Font fontScore = new Font("Arial", Font.BOLD, 20);
-        //textoPuntajeTotal.setFont(fontScore);
         panelPrincipal.add(score); // Agregar el panel de puntaje al panel principal
         score.setBackground(Color.white);
-        scoreGame.setEditable(false);
+        //scoreGame.setEditable(false);
         // Creación y configuración del panel de puntaje
         score.add(title = new Title("Puntaje", Color.black));
         score.add(title, BorderLayout.NORTH);
         title.setForeground(Color.white);
         Font font4 = new Font("Arial", Font.BOLD, 24);
         title.setFont(font4);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        score.add(scrollPane, BorderLayout.EAST);
-        score.add(scoreGame, BorderLayout.CENTER);
+        textGame.setEditable(false);
+        score.add(scrollPane, BorderLayout.CENTER);
+        //score.add(scoreGame, BorderLayout.CENTER);
         //score.add(textoPuntajeTotal, BorderLayout.CENTER);
 
         /**
          * Panel de Botones
          */
-
         panelPrincipal.add(Botones);
         Botones.setLayout(new FlowLayout(FlowLayout.CENTER)); //Establecemos un FlowLayout centrado
         Botones.setBackground(Color.white);
@@ -220,34 +211,31 @@ public class Gui extends JFrame {
             // Verificar si quedaron dados con la cara de 42 activos
             if (caras[i]==2 && activeDice.isAncestorOf(arrayLabel[i] ) && contadorDadosActivos==0) {
                 puntaje++;
-                break;
-            } else if (caras[i]==4 && contadorDadosActivos==0) {
+            } else if (caras[i]==4 && activeDice.isAncestorOf(arrayLabel[i] ) && contadorDadosActivos==0) {
                 puntaje=0;
-                scoreGame.append("\nPERDIO TODOS LOS PUNTOS.\n Puntaje de ronda= "+ puntaje);
-                break;
+                textGame.append("\nPERDIO TODOS LOS PUNTOS ACUMULADOS!.\n Puntaje de ronda= "+ puntaje);
             }
         }
-        puntajeTotal = puntaje;
         if (contadorDadosActivos == 0 && primerClick==true && puntaje==1){
-            scoreGame.append("\nSu puntaje fue de 1");
+            textGame.append("\nSu puntaje fue de 1");
         } else if (contadorDadosActivos == 0 && primerClick==true && puntaje==2) {
-            scoreGame.append("\nSu puntaje fue de 3");
+            textGame.append("\nSu puntaje fue de 3");
         }else if (contadorDadosActivos == 0 && primerClick==true && puntaje==3) {
-            scoreGame.append("\nSu puntaje fue de 6");
+            textGame.append("\nSu puntaje fue de 6");
         }else if (contadorDadosActivos == 0 && primerClick==true && puntaje==4) {
-            scoreGame.append("\nSu puntaje fue de 10");
+            textGame.append("\nSu puntaje fue de 10");
         }else if (contadorDadosActivos == 0 && primerClick==true && puntaje==5) {
-            scoreGame.append("\nSu puntaje fue de 15");
+            textGame.append("\nSu puntaje fue de 15");
         }else if (contadorDadosActivos == 0 && primerClick==true && puntaje==6) {
-            scoreGame.append("\nSu puntaje fue de 21");
+            textGame.append("\nSu puntaje fue de 21");
         }else if (contadorDadosActivos == 0 && primerClick==true && puntaje==7) {
-            scoreGame.append("\nSu puntaje fue de 28");
+            textGame.append("\nSu puntaje fue de 28");
         }else if (contadorDadosActivos == 0 && primerClick==true && puntaje==8) {
-            scoreGame.append("\nSu puntaje fue de 36");
+            textGame.append("\nSu puntaje fue de 36");
         }else if (contadorDadosActivos == 0 && primerClick==true && puntaje==9) {
-            scoreGame.append("\nSu puntaje fue de 45");
+            textGame.append("\nSu puntaje fue de 45");
         }else if (contadorDadosActivos == 0 && primerClick==true && puntaje==10) {
-            scoreGame.append("\nSu puntaje fue de 55");
+            textGame.append("\nSu puntaje fue de 55");
         }
     }
     private void reiniciarRonda() {
@@ -259,6 +247,7 @@ public class Gui extends JFrame {
         containerImage.removeAll();
         inactiveDiceLayout.removeAll();
         usedDiceLayout.removeAll();
+        scoreLayout.removeAll();
         setComponentsEnabled(containerImage, true);
         setComponentsEnabled(inactiveDiceLayout, false);
 
@@ -332,7 +321,6 @@ public class Gui extends JFrame {
                 System.out.println(cantidadDadosActivos);
             }
         }
-
         contadorDadosActivos = cantidadDadosActivos;
         if (contadorDadosActivos == 0 && primerClick==true) {
             JOptionPane.showMessageDialog(null, "Reinicie la ronda y gire los dados");
@@ -343,11 +331,12 @@ public class Gui extends JFrame {
         }
     }
     private void cantidadRondas(){
-        if (ronda==5){
-            JOptionPane.showMessageDialog(null, "Usted finalizo sus 5 turnos.");
+        if (ronda==5 && puntaje<8){
+            JOptionPane.showMessageDialog(null, "Lo siento Usted perdio!!!");
+        } else if (ronda == 5 && puntaje >= 8) {
+            JOptionPane.showMessageDialog(null, "Usted Gano! ");
         }
     }
-
     public static void main(String[] args) {
 
         EventQueue.invokeLater(new Runnable() {
@@ -362,7 +351,7 @@ public class Gui extends JFrame {
         public void actionPerformed(ActionEvent e) {
             //Mostramos la cantidad de rondas
             if (e.getSource()==startRound){
-                scoreGame.append("\nRonda #"+ronda+"\n");
+                textGame.append("\nRonda #"+ronda+"\n");
             }
             //Reiniciamos la ronda y activamos los botones.
             if (e.getSource() == NextRound && contadorDadosActivos==0) {

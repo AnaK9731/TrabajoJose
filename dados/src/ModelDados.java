@@ -23,8 +23,16 @@ public class ModelDados {
     public void obtenerValorCaras(){
         for (int i=0; i<caras.length; i++){
             caras[i]=dado[i].getCara();
+            /**
+             * 1 = MEEPLE.
+             * 2 = 42.
+             * 3 = HERO.
+             * 4 = DRAKE.
+             * 5 = CORAZON.
+             * 6 = COHETE.
+             */
         }
-}
+    }
 public int[] getCaras(){
         return caras;
     }
