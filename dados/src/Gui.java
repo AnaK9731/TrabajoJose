@@ -23,7 +23,6 @@ public class Gui extends JFrame {
     //para la suma de rondas con el dado 42
 
 
-
     private int contadorActivos = 0;
     //imagenes para los dados
     private JLabel dado1, dado2, dado3, dado4, dado5, dado6, dado7, dado8, dado9, dado10, Deco;
@@ -37,15 +36,16 @@ public class Gui extends JFrame {
 
     //crear la ventana
     public Gui() {
-            initGUI();
-            this.setTitle("Geek out masters");
-            this.setSize(850, 450);
-            this.setVisible(true);
-            this.setResizable(false);
-            this.setLocationRelativeTo(null);
-            this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        initGUI();
+        this.setTitle("Geek out masters");
+        this.setSize(850, 450);
+        this.setVisible(true);
+        this.setResizable(false);
+        this.setLocationRelativeTo(null);
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
     }
+
     private void initGUI() {
         /**
          * se crea un panel con el diseno que queremos aplicar Osea gridBagLayout
@@ -56,7 +56,7 @@ public class Gui extends JFrame {
         activeDice = new JPanel(new BorderLayout());
         usedDice = new JPanel(new BorderLayout());
         Botones = new JPanel(new BorderLayout());
-        Decoracion= new JPanel(new BorderLayout());
+        Decoracion = new JPanel(new BorderLayout());
 
         /**
          * Paneles que van dentro de los paneles, para poder meter dentro las imagenes o txt area.
@@ -65,8 +65,8 @@ public class Gui extends JFrame {
         inactiveDiceLayout = new JPanel();
         usedDiceLayout = new JPanel();
         scoreLayout = new JPanel();
-        Botones= new JPanel();
-        Decoracion= new JPanel();
+        Botones = new JPanel();
+        Decoracion = new JPanel();
         dado1 = new JLabel(imageDados);
         dado2 = new JLabel(imageDados);
         dado3 = new JLabel(imageDados);
@@ -154,7 +154,7 @@ public class Gui extends JFrame {
 
 
         /** Configuración de los componentes de texto*/
-        textoPuntajeTotal.setText("Puntaje Total: "+ Puntaje+ " Puntaje Partida"+ PuntajeTotal);
+        textoPuntajeTotal.setText("Puntaje Total: " + Puntaje + " Puntaje Partida" + PuntajeTotal);
         Font fontScore = new Font("Arial", Font.BOLD, 20);
         textoPuntajeTotal.setFont(fontScore);
 
@@ -202,7 +202,7 @@ public class Gui extends JFrame {
         imagen = new ImageIcon(getClass().getResource("/recursos/Deco.jpg"));
         Deco = new JLabel();
         Deco.setIcon(imagen);
-        Decoracion.add(Deco, BorderLayout.CENTER );
+        Decoracion.add(Deco, BorderLayout.CENTER);
         Decoracion.setBackground(Color.white);
 
         /**anadimos el panel principal con el diseno a la ventana*/
@@ -212,6 +212,7 @@ public class Gui extends JFrame {
 
     /**
      * Metodo que nos deja visualizar o no un componente de un conteneder.
+     *
      * @param container
      * @param enabled
      */
@@ -225,6 +226,7 @@ public class Gui extends JFrame {
             component.setEnabled(enabled); // Habilitar o deshabilitar el componente
         }
     }
+
     /**
      * Metodo que me deja el panel de dados usados despues de empezar una ronda.
      */
@@ -236,6 +238,7 @@ public class Gui extends JFrame {
         usedDiceLayout.revalidate();
         usedDiceLayout.repaint();
     }
+
     public static void main(String[] args) {
 
         EventQueue.invokeLater(new Runnable() {
@@ -245,6 +248,7 @@ public class Gui extends JFrame {
             }
         });
     }
+
     private class Escucha implements ActionListener, MouseListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -259,7 +263,7 @@ public class Gui extends JFrame {
             /**
              * Iniciar los valores de los dados al empezar ronda.
              */
-            if (e.getSource() == startRound ) {
+            if (e.getSource() == startRound) {
                 JLabel arrayLabels[] = {dado1, dado2, dado3, dado4, dado5, dado6, dado7, dado8, dado9, dado10};
                 int[] caras = modelDados.getCaras();
                 modelDados.obtenerValorCaras();
@@ -278,6 +282,7 @@ public class Gui extends JFrame {
                 empezarRonda();
             }
         }
+
         @Override
         public void mouseClicked(MouseEvent e) {
             //Creacion de Jlabels en un array para iterarlas de forma sencilla.
@@ -299,7 +304,7 @@ public class Gui extends JFrame {
                             usedDiceLayout.add(arrayLabel[i]);
                             containerImage.revalidate();
                             containerImage.repaint();
-                            estado= 1;
+                            estado = 1;
                             primerClick = false;
                         }
                         /**
@@ -312,7 +317,7 @@ public class Gui extends JFrame {
                             containerImage.revalidate();
                             containerImage.repaint();
                             usedDiceLayout.add(arrayLabel[i]);
-                            estado= 6;
+                            estado = 6;
                             primerClick = false;
                         }
                         /**
@@ -330,7 +335,7 @@ public class Gui extends JFrame {
                             containerImage.repaint();
                             setComponentsEnabled(inactiveDiceLayout, true);
                             setComponentsEnabled(containerImage, false);
-                            estado= 5;
+                            estado = 5;
                             primerClick = false;
                         }
                         /**
@@ -343,7 +348,7 @@ public class Gui extends JFrame {
                             usedDiceLayout.add(arrayLabel[i]);
                             containerImage.revalidate();
                             containerImage.repaint();
-                            estado= 3;
+                            estado = 3;
                             primerClick = false;
                         }
                     } else {
@@ -414,102 +419,15 @@ public class Gui extends JFrame {
                             estado = 0;
                             primerClick = true;
                         }
-
-                        //DADO 42 Y SUMA PARA LAS RONDAS
-
-                        //Se crea la variable para el dado 42 porque no existe >:V
-                        /**public void rondas() {
-                            int dados42 = 0; // 42
-                            int dadosDragon = 0; // dragones
-                            int puntos = 0;
-                            int seguirLanzando;
-                            int Puntaje=0;
-                            int PuntajeTotal = 0; // Inicializar el puntaje total en cero
-
-                            ArrayList botones = new ArrayList<>();
-                            int ronda = 0;
-                            String resultadoPuntaje = "";
-
-
-                            // Si la cantidad de dados 42 es igual al tamaño del ArrayList, gana
-
-                            if (dados42 == botones.size()) {
-                                switch (dados42) {
-                                    case 1:
-                                        PuntajeTotal = 1;
-                                        Puntaje += PuntajeTotal;
-                                        ronda += 1;
-                                        break;
-                                    case 2:
-                                        PuntajeTotal= 3;
-                                        Puntaje += PuntajeTotal;
-                                        ronda += 1;
-                                        break;
-                                    case 3:
-                                        PuntajeTotal= 6;
-                                        Puntaje += PuntajeTotal;
-                                        ronda += 1;
-                                        break;
-                                    case 4:
-                                        PuntajeTotal= 10;
-                                        Puntaje += PuntajeTotal;
-                                        ronda += 1;
-                                        break;
-                                    case 5:
-                                        PuntajeTotal= 15;
-                                        Puntaje += PuntajeTotal;
-                                        ronda += 1;
-                                        break;
-                                    case 6:
-                                        PuntajeTotal= 21;
-                                        Puntaje += PuntajeTotal;
-                                        ronda += 1;
-
-                                    case 7:
-                                        PuntajeTotal= 28;
-                                        Puntaje += PuntajeTotal;
-                                        ronda += 1;
-
-                                    case 8:
-                                        PuntajeTotal= 36;
-                                        Puntaje += PuntajeTotal;
-                                        ronda += 1;
-
-                                    case 9:
-                                        PuntajeTotal= 45;
-                                        Puntaje += PuntajeTotal;
-                                        ronda += 1;
-
-                                    case 10:
-                                        PuntajeTotal= 55;
-                                        Puntaje += PuntajeTotal;
-                                        ronda += 1;
-
-                                        break;
-                                    default:
-                                        break;
-                                }
-                            }else{
-                                // Si la cantidad de dragones y 42 es igual al tamaño del array
-                                if(dados42 + dadosDragon == botones.size()){
-                                    PuntajeTotal = 0;
-                                    Puntaje = 0;
-                                    ronda += 1;
-
-                                }else{
-                                    seguirLanzando = 1;
-
-                                }
-
-                            }*/
-
-                        }
-
                     }
 
 
                 }
+
             }
+
+        }
+
 
         @Override
         public void mousePressed(MouseEvent e) {
@@ -531,8 +449,95 @@ public class Gui extends JFrame {
 
         }
     }
-
-
-
 }
+/**
+    //DADO 42 Y SUMA PARA LAS RONDAS
 
+    //Se crea la variable para el dado 42 porque no existe >:V
+    public void rondas() {
+        int dados42 = 0; // 42
+        int dadosDragon = 0; // dragones
+        int puntos = 0;
+        int seguirLanzando;
+        int Puntaje = 0;
+        int PuntajeTotal = 0; // Inicializar el puntaje total en cero
+
+        ArrayList botones = new ArrayList<>();
+        int ronda = 0;
+        String resultadoPuntaje = "";
+
+
+        // Si la cantidad de dados 42 es igual al tamaño del ArrayList, gana
+
+        if (dados42 == botones.size()) {
+            switch (dados42) {
+                case 1:
+                    PuntajeTotal = 1;
+                    Puntaje += PuntajeTotal;
+                    ronda += 1;
+                    break;
+                case 2:
+                    PuntajeTotal = 3;
+                    Puntaje += PuntajeTotal;
+                    ronda += 1;
+                    break;
+                case 3:
+                    PuntajeTotal = 6;
+                    Puntaje += PuntajeTotal;
+                    ronda += 1;
+                    break;
+                case 4:
+                    PuntajeTotal = 10;
+                    Puntaje += PuntajeTotal;
+                    ronda += 1;
+                    break;
+                case 5:
+                    PuntajeTotal = 15;
+                    Puntaje += PuntajeTotal;
+                    ronda += 1;
+                    break;
+                case 6:
+                    PuntajeTotal = 21;
+                    Puntaje += PuntajeTotal;
+                    ronda += 1;
+
+                case 7:
+                    PuntajeTotal = 28;
+                    Puntaje += PuntajeTotal;
+                    ronda += 1;
+
+                case 8:
+                    PuntajeTotal = 36;
+                    Puntaje += PuntajeTotal;
+                    ronda += 1;
+
+                case 9:
+                    PuntajeTotal = 45;
+                    Puntaje += PuntajeTotal;
+                    ronda += 1;
+
+                case 10:
+                    PuntajeTotal = 55;
+                    Puntaje += PuntajeTotal;
+                    ronda += 1;
+
+                    break;
+                default:
+                    break;
+            }
+        } else {
+            // Si la cantidad de dragones y 42 es igual al tamaño del array
+            if (dados42 + dadosDragon == botones.size()) {
+                PuntajeTotal = 0;
+                Puntaje = 0;
+                ronda += 1;
+
+            } else {
+                seguirLanzando = 1;
+
+            }
+
+        }
+
+
+}*/
